@@ -28,7 +28,10 @@ How to attempt this challenge:
 
 1) Create a new repo in your account and note the git url
 2) Clone this repo
-3) Solve the challenge
+3) Solve the challenge:
+    * The pages should be responsive across the latest browsers (Chrome, Safari, Edge) and mobile devices. The options for multiple choice questions should be stacked vertically in mobile screens.
+    * Make sure to handle exceptions (try..catch blocks and null checks) wherever applicable.
+    * The questions from [questions.json](https://raw.githubusercontent.com/outlier-org/challenge-quiz/master/src/questions.json) can be statically imported in your react component. But bonus points will be provided if you integrate the question data using a demo api generated using [json-server](https://github.com/typicode/json-server#getting-started) or similar tools.
 4) Set your new repo as the origin: `git remote set-url origin ${your repo url}`
 5) Push your solution to your repo
 
