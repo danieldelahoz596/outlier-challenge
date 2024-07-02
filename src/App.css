@@ -1,17 +1,21 @@
 .bg-whilte {
-  background-color: "var(--white)";
-}
-
-.bg-secondary {
-  background-color: "var(--secondary)";
+  background-color: var(--white);
 }
 
 .bg-gray-dark {
-  background-color: "var(--gray-dark)";
+  background-color: var(--gray-dark);
 }
 
 .bg-gray {
-  background-color: "var(--gray)";
+  background-color: var(--gray);
+}
+
+.bg-whilte-gray {
+  background: var(--white-gray);
+}
+
+.bg-dark-black {
+  background-color: var(--dark-black);
 }
 
 .gap-2 {
@@ -28,6 +32,22 @@
 
 .mb-20 {
   margin-bottom: 20px;
+}
+
+.mb-100 {
+  margin-bottom: 100px;
+}
+
+.border-5 {
+  border-radius: 5px;
+}
+
+.h-20 {
+  height: 20px;
+}
+
+.h-22 {
+  height: 22px;
 }
 
 .selected {

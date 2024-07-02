@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import ProgressBar from "./components/ProgressBar";
 import QuestionInfo from "./components/QuestionInfo";
 import AnswerGroup from "./components/AnswerGroup";
+import ScoreBar from "./components/ScoreBar";
 
 function App() {
   const [questions, setQuestions] = useState([]);
@@ -12,6 +13,7 @@ function App() {
   const [totalCount, setTotalCount] = useState(0);
   const [answeredCount, setAnsweredCount] = useState(0);
   const [correctCount, setCorrectCount] = useState(0);
+  const [currentPage, setCurrentpage] = useState(1);
 
   const fetchQuestions = useCallback(async () => {
     try {
@@ -36,8 +38,16 @@ function App() {
   }, [fetchQuestions]);
 
   const currentQuestionData = useMemo(
-    () => questions[answeredCount],
-    [questions, answeredCount]
+    () => questions[currentPage - 1],
+    [questions, currentPage]
+  );
+
+  const correctAnswer = useMemo(
+    () =>
+      currentQuestionData
+        ? decodeURIComponent(currentQuestionData.correct_answer)
+        : null,
+    [currentQuestionData]
   );
 
   const answers = useMemo(
@@ -54,7 +64,14 @@ function App() {
   );
 
   const handleNext = () => {
+    setCurrentpage((prev) => prev + 1);
+  };
+
+  const handleSelectAnswer = (value) => {
     setAnsweredCount((prev) => prev + 1);
+    if (value === correctAnswer) {
+      setCorrectCount((prev) => prev + 1);
+    }
   };
 
   if (isLoading) {
@@ -67,29 +84,37 @@ function App() {
 
   return (
     <div>
-      <ProgressBar totalCount={totalCount} answeredCount={answeredCount} />
+      <div className="mb-20">
+        <ProgressBar totalCount={totalCount} currentPage={currentPage} />
+      </div>
 
-      <div id="body" className="container d-flex flex-column gap-50">
-        <QuestionInfo
-          answeredCount={answeredCount}
+      <div className="container">
+        <div id="body" className="d-flex flex-column gap-50 mb-100">
+          <QuestionInfo
+            currentPage={currentPage}
+            totalCount={totalCount}
+            questionInfo={{
+              difficulty: currentQuestionData.difficulty,
+              category: decodeURIComponent(currentQuestionData.category),
+            }}
+          />
+          <h3>{decodeURIComponent(currentQuestionData.question)}</h3>
+          <AnswerGroup
+            questionData={{
+              answers,
+              totalCount,
+              currentPage,
+              correctAnswer,
+            }}
+            onSelectAnswer={handleSelectAnswer}
+            onNext={handleNext}
+          />
+        </div>
+
+        <ScoreBar
           totalCount={totalCount}
-          questionInfo={{
-            difficulty: currentQuestionData.difficulty,
-            category: decodeURIComponent(currentQuestionData.category),
-          }}
-        />
-        <h3>{decodeURIComponent(currentQuestionData.question)}</h3>
-        <AnswerGroup
-          questionData={{
-            answers,
-            totalCount,
-            answeredCount,
-            correctAnswer: decodeURIComponent(
-              currentQuestionData.correct_answer
-            ),
-          }}
-          onNext={() => handleNext()}
-          setCorrectCount={setCorrectCount}
+          answeredCount={answeredCount}
+          correctCount={correctCount}
         />
       </div>
     </div>

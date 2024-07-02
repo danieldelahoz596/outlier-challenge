@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ReactComponent as Star } from "../assets/star.svg";
 
-const QuestionInfo = ({ answeredCount, totalCount, questionInfo }) => {
+const QuestionInfo = ({ currentPage, totalCount, questionInfo }) => {
   const [starCount, setStarCount] = useState(0);
 
   useEffect(() => {
@@ -12,10 +12,10 @@ const QuestionInfo = ({ answeredCount, totalCount, questionInfo }) => {
 
   return (
     <div>
-      <h2 className="bg-gray-dark">
-        Question {answeredCount} of {totalCount}
+      <h2 className="text-dark">
+        Question {currentPage} of {totalCount}
       </h2>
-      <h5 className="bg-gray">{questionInfo.category}</h5>
+      <h5 className="text-secondary">{questionInfo.category}</h5>
 
       <div className="d-flex gap-2">
         {Array.from(Array(starCount)).map((_, index) => (

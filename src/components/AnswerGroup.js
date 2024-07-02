@@ -15,20 +15,20 @@ const NextButton = styled(Button)`
   height: 40px;
 `;
 
-const AnswerGroup = ({ questionData, onNext, setCorrectCount }) => {
+const AnswerGroup = ({ questionData, onSelectAnswer, onNext }) => {
   const [sequence, setSequence] = useState([]);
   const [selectedAnswer, setSelectedAnswer] = useState("");
 
   const answers = questionData["answers"];
   const correctAnswer = questionData["correctAnswer"];
   const totalCount = questionData["totalCount"];
-  const answeredCount = questionData["answeredCount"];
+  const currentPage = questionData["currentPage"];
 
   const answerCount = useMemo(() => answers.length, [answers]);
 
   const handleSelectAnswer = (value) => {
     setSelectedAnswer(value);
-    if (value === correctAnswer) setCorrectCount((prev) => prev + 1);
+    onSelectAnswer(value);
   };
 
   useEffect(() => {
@@ -73,7 +73,7 @@ const AnswerGroup = ({ questionData, onNext, setCorrectCount }) => {
         </h3>
       </div>
 
-      {selectedAnswer !== "" && totalCount !== answeredCount && (
+      {selectedAnswer !== "" && totalCount !== currentPage && (
         <div className="d-flex justify-content-center">
           <NextButton onClick={() => handleNext()}>Next Question</NextButton>
         </div>
