@@ -25,3 +25,17 @@
 .gap-50 {
   gap: 50px;
 }
+
+.mb-20 {
+  margin-bottom: 20px;
+}
+
+.selected {
+  background-color: var(--dark-black) !important;
+  color: var(--light);
+}
+
+.correct {
+  background-color: var(--light) !important;
+  color: var(--dark-black);
+}

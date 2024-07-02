@@ -1,13 +1,13 @@
 import React from "react";
 
-const ProgressBar = ({ answersCount, totalCount }) => {
+const ProgressBar = ({ answeredCount, totalCount }) => {
   return (
     <div className="progress bg-white">
       <div
         className="progress-bar bg-secondary"
         role="progressbar"
         style={{
-          width: `${(totalCount / (answersCount * 1.0)) * 100}%"`,
+          width: `${(answeredCount / (totalCount * 1.0)) * 100}%`,
         }}
         aria-valuenow="75"
         aria-valuemin="0"
