@@ -1,18 +1,28 @@
 import React, { useCallback, useEffect, useState } from "react";
-import logo from "./logo.svg";
 import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import ProgressBar from "./components/ProgressBar";
 
 function App() {
   const [questions, setQuestions] = useState([]);
-  console.log("questions: ", questions);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [totalCount, setTotalCount] = useState(0);
+  const [answersCount, setAnswersCount] = useState(0);
 
   const fetchQuestions = useCallback(async () => {
     try {
-      // Fetch questions from the API
+      setIsLoading(true);
       const response = await fetch("http://localhost:3001/questions");
       const data = await response.json();
-      setQuestions(data);
+      setIsLoading(false);
+
+      if (Array.isArray(data)) {
+        setQuestions(data);
+        setTotalCount(data.length);
+      } else {
+        setError("Wrong Questions Type");
+      }
     } catch (err) {
       setError(err.message);
     }
@@ -22,22 +32,18 @@ function App() {
     fetchQuestions();
   }, [fetchQuestions]);
 
+  if (isLoading) {
+    return <h2 className="container">Questions are loading....</h2>;
+  }
+
+  if (error) {
+    return <h2 className="container">Loading Failed</h2>;
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <ProgressBar totalCount={totalCount} answersCount={answersCount} />
+      <div id="body"></div>
     </div>
   );
 }
