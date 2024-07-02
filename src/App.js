@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ProgressBar from "./components/ProgressBar";
+import QuestionInfo from "./components/QuestionInfo";
 
 function App() {
   const [questions, setQuestions] = useState([]);
@@ -15,7 +16,6 @@ function App() {
       setIsLoading(true);
       const response = await fetch("http://localhost:3001/questions");
       const data = await response.json();
-      setIsLoading(false);
 
       if (Array.isArray(data)) {
         setQuestions(data);
@@ -23,6 +23,7 @@ function App() {
       } else {
         setError("Wrong Questions Type");
       }
+      setIsLoading(false);
     } catch (err) {
       setError(err.message);
     }
@@ -43,7 +44,18 @@ function App() {
   return (
     <div>
       <ProgressBar totalCount={totalCount} answersCount={answersCount} />
-      <div id="body"></div>
+      <div id="body" className="container d-flex flex-column gap-50">
+        <QuestionInfo
+          answersCount={answersCount}
+          totalCount={totalCount}
+          questionInfo={{
+            difficulty: questions[answersCount].difficulty,
+            category: decodeURIComponent(questions[answersCount].category),
+          }}
+        />
+
+        <h3>{decodeURIComponent(questions[answersCount].question)}</h3>
+      </div>
     </div>
   );
 }

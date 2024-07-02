@@ -2,13 +2,12 @@ import React from "react";
 
 const ProgressBar = ({ answersCount, totalCount }) => {
   return (
-    <div className="progress" style={{ backgroundColor: "var(--white)" }}>
+    <div className="progress bg-white">
       <div
-        className="progress-bar"
+        className="progress-bar bg-secondary"
         role="progressbar"
         style={{
           width: `${(totalCount / (answersCount * 1.0)) * 100}%"`,
-          backgroundColor: "var(--secondary)",
         }}
         aria-valuenow="75"
         aria-valuemin="0"
